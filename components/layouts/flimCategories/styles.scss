@@ -1,0 +1,66 @@
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+body {
+  height: 1300px;
+  overflow: visible;
+}
+.Content {
+  overflow: hidden;
+  background-color: #739bb330;
+  width: 100%;
+  height: 1000px;
+  margin: 0px;
+  padding-bottom: 100px;
+  position: relative;
+}
+.Slider {
+  //padding-top: 60px;
+  margin: 15px;
+  width: 99%;
+  height: 700px;
+  background-color: honeydew;
+}
+.random-movies {
+  background-color: #739bb330;
+  // margin-top: 65px;
+  padding-left: 60px;
+  height: 200px;
+  width: 100%;
+  display: flex;
+  overflow-y: hidden;
+  float: left;
+  position: relative;
+}
+.random-movies::-webkit-scrollbar {
+  display: none;
+}
+.film-cat {
+  float: left;
+  padding-left: 20px;
+  position: relative;
+}
+.film-cat:hover .film-cat-icon {
+  display: block;
+}
+.film-cat-icon {
+  position: absolute;
+  display: none;
+  top: 50%;
+  width: 40px;
+  margin: 0 auto;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
+}
+
+.footer {
+  padding-top: 50px;
+}
+input #img {
+  display: none;
+}

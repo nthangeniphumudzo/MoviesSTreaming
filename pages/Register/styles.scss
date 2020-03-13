@@ -1,0 +1,20 @@
+.center{
+    background-image: url("/static/images/default-film-production-houses-6.jpg");
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position:left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    
+   
+}
+ Form{
+    left: 50%;
+    top:50%;
+    margin:150px;
+    text-align: center;
+}
+.ant-form ant-form-horizontal{
+    background-color: chartreuse;
+}

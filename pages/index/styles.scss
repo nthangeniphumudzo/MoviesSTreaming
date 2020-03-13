@@ -1,0 +1,30 @@
+.homepage {
+  background-image: url('/static/images/default-film-production-houses-6.jpg');
+  height: 780px;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+h1 {
+  padding-top: 35px;
+  font-size: 45px;
+  font-family: initial;
+  text-align: center;
+  font-weight: bolder;
+  text-shadow: 2px 2px #ff0000;
+  opacity: 0.75;
+}
+.register {
+  padding-top: 200px;
+  width: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
+.router {
+  display: flex;
+}
+.router button {
+  background-color: blue;
+  color: white;
+}

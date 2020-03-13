@@ -1,0 +1,22 @@
+.body {
+  background-image: url('/static/images/images\ .jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  height: 1250px;
+  padding: 100px;
+}
+.loginForm {
+  height: 450px;
+  width: 600px;
+  margin-left: 380px;
+  padding-top: 100px;
+  border-width: 10px;
+  box-shadow: 3px 3px red;
+  .custom-form-item {
+    // background-image: url("img_girl.jpg");
+    display: flex;
+    justify-content: space-between;
+  }
+}
