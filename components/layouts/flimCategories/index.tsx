@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'antd/dist/antd.css';
-import { useAccessTokenContext } from 'contexts/signin';
-import { useSigninActionsContext } from 'contexts/signin';
+import { useAccessTokenContext, useSigninActionsContext } from 'contexts/signin';
 import './styles.scss';
 import { Layout, Menu, Input, Modal, Button } from 'antd';
 import { FiShare } from 'react-icons/fi';
@@ -88,7 +87,7 @@ const LayoutFilms = () => {
       setState({ ...state, loading1: false, visible: false });
     }, 36000);
     console.log('my video', formData.image);
-    videUpload({ formData, Category })
+    videUpload(formData, { Category })
       .then(() => console.log('uploaded'))
       .catch(() => console.error());
   };
