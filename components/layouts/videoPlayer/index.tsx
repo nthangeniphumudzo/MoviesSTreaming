@@ -29,7 +29,7 @@ export const LayoutFilm2: FC<IProps> = ({ url }) => {
           <Menu.Item key="5">ROMANTIC MOVIES</Menu.Item>
           <Menu.Item key="6">SCI-FI MOVIES</Menu.Item>
           <Menu.Item key="7">HORROR MOVIES</Menu.Item>
-          <Menu.Item key="8" style={{ marginLeft: '75px', height: '35px', backgroundColor: 'dark' }}>
+          <Menu.Item key="8" style={{ marginLeft: '25px', height: '35px', backgroundColor: ' #74992e' }}>
             <Search placeholder="Search movies by titles" onSearch={value => console.log(value)} enterButton />
           </Menu.Item>
           <Menu.Item key="4">
