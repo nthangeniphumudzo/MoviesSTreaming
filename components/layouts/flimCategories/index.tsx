@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'antd/dist/antd.css';
-import { useAccessTokenContext, useSigninActionsContext } from 'contexts/signin';
+import { useAccessTokenContext } from 'contexts/signin';
+import { useSigninActionsContext } from 'contexts/signin';
 import './styles.scss';
-import { Layout, Menu, Input, Modal, Button } from 'antd';
+import { Layout, Menu, Input, Modal, Button, Select } from 'antd';
 import { FiShare } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { useVideosGetVideos } from '../../../generated';
+import { useVideosGetVideos, Multimedia } from '../../../generated';
 import uuid from 'uuid/v4';
-import { useMutateHttp } from 'contexts';
+import { useMutateHttp } from 'contexts/useMutateHttp';
+//import { useMutateHttp } from './hooks';
 
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
@@ -33,18 +35,28 @@ const LayoutFilms = () => {
   const accesssToken = useAccessTokenContext();
   const router = useRouter();
   let inputText = useRef<HTMLHeadingElement | null>(null);
-  const [Category, setCategory] = useState<string>('');
-  const [image, setImage] = useState<File>(null);
-  const [video, setVideo] = useState<File>(null);
+  const [Category, setCategory] = useState<string>();
+  const [iFiles, setIfiles] = useState<Multimedia>({});
   const { mutate: videUpload } = useMutateHttp({
     path: '/api/Video',
     verb: 'POST',
   });
+  const { Option, OptGroup } = Select;
 
   // useEffects
   useEffect(() => {
+    console.log('selected cat', Category);
+  }, [Category]);
+  // useMutateHttp
+  // `/api/Video`
+  // const { mutate: videUpload } = useMutateHttp({
+  //   // queryParams: { Category },
+  //   path: '/api/Video',
+  //   verb: 'POST',
+  // });
+
+  useEffect(() => {
     if (!loadingVideos && videos) {
-      console.log(videos);
       setCurrentVideo(currentVideo);
     }
   }, [currentVideo]);
@@ -62,17 +74,17 @@ const LayoutFilms = () => {
       setState({ ...state, upload: true, Islogged: false });
     }
   }, [accesssToken]);
+  const handleFileSelect = (file: Blob, callback) => {
+    const reader = new FileReader();
+    // reader.onload = function() {
+    reader.onload = function() {
+      const content: any = reader.result;
+      callback(btoa(content));
+    };
+    //convert the given file to binary string ,when done pass its results to the content
+    reader.readAsBinaryString(file);
+  };
 
-  var FormData = require('form-data');
-  var formData = new FormData();
-  if (video) {
-    formData.append('trailer', video);
-    console.log('vide02', formData.get('trailer'));
-  }
-  if (image && formData.get('image') == null) {
-    formData.append('image', image);
-    console.log('image2', formData.get('image'));
-  }
   const showModal = () => {
     setState({ ...state, visible: true });
     // setTimeout(inputText.current.focus(), 1000);
@@ -80,23 +92,23 @@ const LayoutFilms = () => {
   const login = () => {
     router.push('/login');
   };
+  function handleChange(value) {
+    setCategory(value);
+  }
 
   const handleOk = () => {
     setState({ ...state, loading1: true });
     setTimeout(() => {
       setState({ ...state, loading1: false, visible: false });
-    }, 36000);
-    console.log('my video', formData.image);
-    videUpload(formData, { Category })
-      .then(() => console.log('uploaded'))
+    }, 6000);
+    console.log('payload', iFiles);
+    videUpload(iFiles, { Category })
+      .then(() => console.log('uploaded good boy'))
       .catch(() => console.error());
   };
   const handleCancel = () => {
     setTimeout(() => setState({ ...state, visible: false }), 3000);
   };
-  // const mouseEnter=(selectedGenre:state>{
-  //   setState({...state,sel:true})
-  // }
 
   if (videos) {
     let actionVid = videos.filter(vid => vid.category == genre);
@@ -298,7 +310,12 @@ const LayoutFilms = () => {
               marginBottom: '15px',
             }}
           >
-            <Button type="primary" onClick={showModal} disabled={state.upload}>
+            <Button
+              type="primary"
+              style={{ backgroundColor: '#008080', color: 'gold', height: '42px', width: '125px', borderColor: 'gold' }}
+              onClick={showModal}
+              disabled={state.upload}
+            >
               <FiShare />
               Upload
             </Button>
@@ -355,12 +372,18 @@ const LayoutFilms = () => {
           <Button key="back" type="danger" onClick={handleCancel}>
             Go Back
           </Button>,
-          <Button key="submit" type="primary" loading={state.loading1} onClick={handleOk}>
+          <Button
+            key="submit"
+            type="primary"
+            style={{ backgroundColor: 'green' }}
+            loading={state.loading1}
+            onClick={handleOk}
+          >
             Submit
           </Button>,
         ]}
       >
-        <input
+        {/* <input
           type="text"
           placeholder="choose a genre"
           value={Category}
@@ -368,19 +391,69 @@ const LayoutFilms = () => {
             console.log('onChange e', e.target.value);
             setCategory(e.target.value);
           }}
+        /> */}
+        <Select defaultValue="GENRES" style={{ width: 200 }} onChange={handleChange}>
+          <OptGroup label="Categories">
+            <Option value="Action">ACTION</Option>
+            <Option value="Drama">DRAMA</Option>
+            <Option value="RomComedy">ROMANCE</Option>
+            <Option value="Sci-Fi">SCI-FI</Option>
+            <Option value="Horror">HORROR</Option>
+          </OptGroup>
+        </Select>
+
+        <br />
+        <br />
+        <label
+          className="custom-file-upload"
+          style={{
+            backgroundColor: '#008080',
+            borderRadius: '5px',
+            border: 'solid 4px',
+            borderColor: 'black',
+            color: 'white',
+            paddingRight: '16px',
+            marginRight: '15px',
+          }}
+        >
+          MOVIE POSTER
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={e => {
+            const holder = e.target.files;
+            handleFileSelect(holder[0], base64Image => {
+              setIfiles({ ...iFiles, imageData: base64Image, imageName: holder[0].name });
+            });
+          }}
         />
         <br />
         <br />
-        <label className="custom-file-upload">
-          MOVIE POSTER
-          <input type="file" accept="image/*" onChange={e => setImage(e.target.files[0])} />
-        </label>
-        <br />
-        <br />
-        <label className="custom-file-upload">
+        <label
+          className="custom-file-upload"
+          style={{
+            backgroundColor: '#008080',
+            borderRadius: '5px',
+            border: 'solid 4px',
+            borderColor: 'black',
+            color: 'white',
+            paddingRight: '29px',
+            marginRight: '15px',
+          }}
+        >
           NEW MOVIE
-          <input type="file" accept="video/*" onChange={e => setVideo(e.target.files[0])} />
         </label>
+        <input
+          type="file"
+          accept="video/*"
+          onChange={e => {
+            const holder = e.target.files;
+            handleFileSelect(holder[0], base64Video => {
+              setIfiles({ ...iFiles, videoData: base64Video, videoName: holder[0].name });
+            });
+          }}
+        />
       </Modal>
     </Layout>
   );

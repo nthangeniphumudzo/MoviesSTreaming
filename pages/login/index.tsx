@@ -43,7 +43,7 @@ export default function Login() {
         )}
 
         {isAuthenticating && <Alert type="info" message={'Signin in...'} />}
-        {authError && <Alert type="error" message={((e: any = authError) => e.data.join(' '))()} />}
+        {authError && <Alert type="error" message={((e: any = authError) => e.data)()} />}
 
         <FormItem>
           <Input
