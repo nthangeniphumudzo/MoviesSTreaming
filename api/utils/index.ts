@@ -9,12 +9,7 @@ export const makeGetRequest = (url: string) =>
 
 export const makePostRequest = (url: string, payload: any = undefined) => {
   return axios
-    .post(url, qs.stringify(payload), {
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded, application/json',
-        // 'content-type': 'application/x-www-form-urlencoded',
-      },
-    })
+    .post(url, qs.stringify(payload))
     .then(response => response)
     .catch(error => error.response);
 };
