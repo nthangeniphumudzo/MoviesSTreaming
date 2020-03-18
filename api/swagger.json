@@ -263,27 +263,24 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "trailer": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "image": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "trailer": {
-                  "style": "form"
-                },
-                "image": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/Multimedia"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Multimedia"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Multimedia"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Multimedia"
               }
             }
           }
@@ -759,6 +756,28 @@
           },
           "password": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Multimedia": {
+        "type": "object",
+        "properties": {
+          "imageName": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageData": {
+            "type": "string",
+            "nullable": true
+          },
+          "videoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "videoData": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
